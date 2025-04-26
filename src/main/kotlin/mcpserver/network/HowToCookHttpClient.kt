@@ -12,10 +12,10 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import mcpserver.network.data.RecipeItem
 
-class HowToCookHttpClient private constructor() {
+class HowToCookHttpClient private constructor(private val base: String) {
     private val httpClient = HttpClient {
         defaultRequest {
-            url(RECIPES_URL)
+            url(base)
             headers {
                 append("Accept", "application/json")
             }
@@ -36,8 +36,9 @@ class HowToCookHttpClient private constructor() {
 
     companion object {
         const val RECIPES_URL = "https://mp-bc8d1f0a-3356-4a4e-8592-f73a3371baa2.cdn.bspapp.com/all_recipes.json"
-        val client by lazy {
-            HowToCookHttpClient()
+
+        fun create(base: String = RECIPES_URL): HowToCookHttpClient {
+            return HowToCookHttpClient(base)
         }
     }
 }

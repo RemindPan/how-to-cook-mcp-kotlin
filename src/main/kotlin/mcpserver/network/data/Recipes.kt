@@ -9,7 +9,7 @@ data class RecipeItem(
     val name: String,
     val description: String,
     @SerialName("source_path")
-    val sourcePath: String = "",
+    val sourcePath: String? = null,
     val category: String,
     val difficulty: Int,
     val tags: List<String>,
@@ -18,7 +18,18 @@ data class RecipeItem(
     val steps: List<CookStepItem>,
     @SerialName("additional_notes")
     val additionalNote: List<String>
-)
+) {
+    override fun toString(): String {
+        return mapOf(
+            "id" to id,
+            "name" to name,
+            "category" to category,
+            "description" to description,
+            "ingredients" to ingredients,
+            "steps" to steps
+        ).toString()
+    }
+}
 
 @Serializable
 data class IngredientItem(
